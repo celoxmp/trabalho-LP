@@ -14,13 +14,14 @@ print()
 
 print("Começando o cálculo com algoritmo genético: ")
 ga2 = GA(EntryData)
-ga2.geneticAlgorithm(popSize=100, eliteSize=20, mutationRate=0.01, generations=100)
+ga2.geneticAlgorithmPlot(popSize=100, eliteSize=20, mutationRate=0.01, generations=100)
 print()
 
 print("Começando o cálculo com algoritmo Grasp: ")
 grasp = Grasp(EntryData)
-best, best_solution = grasp.calculate_GRASP(1000, 0.5)
-print(best)
+#best, best_solution = grasp.calculate_GRASP(1000, 0.5)
+grasp.calculate_GRASP_Plot(1000, 0.5)
+#print(best)
 print()
 
 tour_guloso = grasp.nearest_neighbor_random(0,0)

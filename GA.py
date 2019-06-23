@@ -135,7 +135,7 @@ class GA:
     
     
     def geneticAlgorithmPlot(self, popSize, eliteSize, mutationRate, generations):
-        pop = self.initialPopulation(self.list, popSize)
+        pop = self.initialPopulation(popSize, self.list)
         progress = []
         progress.append(1 / self.rankRoutes(pop)[0][1])
     

@@ -1,4 +1,5 @@
 import random
+import matplotlib.pyplot as plt
 
 # -*- coding: utf-8 -*-
 """
@@ -22,6 +23,25 @@ class Grasp:
                 best_solution = solution_improved
                 best = solution_value_improved
         return best, best_solution
+    
+    def calculate_GRASP_Plot(self, num_iterations, alpha):
+        best = 1000000
+        progress = []
+        for i in range(0,num_iterations):
+            first_city = random.randint(0, self.n - 1)
+            solution = self.nearest_neighbor_random(first_city, alpha)
+            solution_improved, solution_value_improved = self.two_opt(solution)
+            if(solution_value_improved < best):
+                best_solution = solution_improved
+                best = solution_value_improved
+                #progress.append(best)
+            progress.append(solution_value_improved)
+        plt.plot(progress)
+        plt.ylabel('Distance')
+        plt.xlabel('Iterations')
+        plt.show()
+        print(best)
+        #return best, best_solution
 
     def two_opt(self, route):
         best = route
