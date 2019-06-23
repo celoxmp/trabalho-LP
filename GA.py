@@ -13,11 +13,11 @@ class GA:
         entry = EntryData()
         self.data = entry.data
         self.n = entry.n
+        self.list = entry.list
     
     def createRoute(self, cityList):
-        sol = list(range(self.n))
-        random.shuffle(sol)
-        return sol
+        route = random.sample(cityList, len(cityList))
+        return route
 
     def initialPopulation(self, popSize, cityList):
         population = []
@@ -122,7 +122,7 @@ class GA:
     
     
     def geneticAlgorithm(self, popSize, eliteSize, mutationRate, generations):
-        pop = self.initialPopulation(self.n, popSize)
+        pop = self.initialPopulation(popSize, self.list)
         print("Initial distance: " + str(1 / self.rankRoutes(pop)[0][1]))
     
         for i in range(0, generations):
@@ -135,7 +135,7 @@ class GA:
     
     
     def geneticAlgorithmPlot(self, popSize, eliteSize, mutationRate, generations):
-        pop = self.initialPopulation(self.n, popSize)
+        pop = self.initialPopulation(self.list, popSize)
         progress = []
         progress.append(1 / self.rankRoutes(pop)[0][1])
     
@@ -157,16 +157,6 @@ class Fitness:
 
     def routeDistance(self):
         if self.distance == 0:
-            """pathDistance = 0
-            for i in range(0, len(self.route)):
-                fromCity = self.route[i]
-                toCity = None
-                if i + 1 < len(self.route):
-                    toCity = self.route[i + 1]
-                else:
-                    toCity = self.route[0]
-                pathDistance += fromCity.distance(toCity)
-            self.distance = pathDistance"""
             self.distance = self.length(self.route)
         return self.distance
 
@@ -177,7 +167,7 @@ class Fitness:
     
     def length(self, tour):
         """Calculate the length of a tour according to distance matrix 'D'."""
-        z = self.data[tour[-1], tour[0]]    # edge from last to first city of the tour
+        z = self.data[tour[-1][2], tour[0][2]]    # edge from last to first city of the tour
         for i in range(1,len(tour)):
-            z += self.data[tour[i], tour[i-1]]      # add length of edge from city i-1 to i
+            z += self.data[tour[i][2], tour[i-1][2]]      # add length of edge from city i-1 to i
         return z

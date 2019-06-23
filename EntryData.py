@@ -24,9 +24,12 @@ class EntryData:  #Singleton
         n = len(cities)
         distances = np.zeros((n, n))
         coord = []
+        coord2 = []
         for i in range(0, n):
             coord.append((file['x'][i], file['y'][i]))
+            coord2.append((file['x'][i], file['y'][i], i))
         self.n = n
+        self.list = coord2
         return self.mk_matrix(coord)
     
     def mk_matrix(self, coord):
