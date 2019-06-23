@@ -49,6 +49,13 @@ def nearest_random(last, unvisited, alpha):
     (heurística gulosa randomizada)
     e retorna o número do vizinho aleatório dentro dos alpha*len(unvisited) vizinhos mais próximos
     """
+    dist_last = []
+    for i in unvisited[0:]:
+        dist_last.append((i,D[last,i]))
+    dist_last.sort(key=lambda x: x[1])
+    pos_max = int(alpha*len(dist_last))
+    pos = int(random.uniform(0,pos_max))
+    return dist_last[pos][0]
 
 def nearest(last, unvisited):
     """
@@ -56,43 +63,80 @@ def nearest(last, unvisited):
     do vértice mais próximo
     (mais perto)
     """
-
+    near = unvisited[0]
+    dist_last = []
+    for i in unvisited[0:]:
+        dist_last.append((i,D[last,i]))
+    dist_last.sort(key=lambda x: x[1])
+    return dist_last[0][0]
 
 def nearest_neighbor_random(i, alpha):
     """
-    Recebe a cidade inicial e retorna uma lista com o caminho percorrido - Heurística gulosa randomizada
+    Recebe a cidade inicial e retorna uma lista com o caminho percorrido
     """
+    unvisited = list(range(n))
+    unvisited.remove(i)
+    last = i
+    tour = [i]
+    while unvisited != []:
+        next = nearest_random(last, unvisited, alpha)
+        tour.append(next)
+        unvisited.remove(next)
+        last = next
+    return tour
 
 def nearest_neighbor(i):
     """
-    Recebe a cidade inicial i e retorna uma lista com o caminho percorrido - Algoritmo guloso
+    Recebe a cidade inicial e retorna uma lista com o caminho percorrido
     """
-    n_visited = list(range(0,n))
-    n_visited.remove(i);
-    value = 0
+    unvisited = list(range(n))
+    unvisited.remove(i)
     last = i
-    caminho = []
-    caminho.append(last)
-    while len(caminho) < n-1:
-        min1 = 0
-        minPos = 0
-        for j in n_visited:
-            if n_visited == []:
-                break;
-            if last != j and j not in caminho and D[last,j] < min1:
-                min1 = D[last,j]
-                minPos = j
-        caminho.append(minPos)
-        n_visited.remove(minPos)
-        last = minPos
-        value += min1
-    return value
-                
+    tour = [i]
+    while unvisited != []:
+        next = nearest(last, unvisited)
+        tour.append(next)
+        unvisited.remove(next)
+        last = next
+    return tour
 
 def randtour():
     """
-    Constrói uma lista (caminho) aleatoriamente - Heurística aleatória
+    Constrói uma lista (caminho) aleatoriamente
     """
+    sol = list(range(n))
+    random.shuffle(sol)
+    return sol
+
+def cost_change(n1, n2, n3, n4):
+    return D[n1,n3] + D[n2,n4] - D[n1,n2] - D[n3,n4]
+
+def two_opt(route):
+    best = route
+    improved = True
+    counter = 0
+    while improved:
+        improved = False
+        for i in range(1, len(route) - 2):
+            for j in range(i + 1, len(route)):
+                if j - i == 1: continue
+                if cost_change(best[i - 1], best[i], best[j - 1], best[j]) < 0:
+                    best[i:j] = best[j - 1:i - 1:-1]
+                    improved = True
+                    counter = counter + 1
+        route = best
+    return best,length(best)
+
+def GRASP(num_iterations, alpha):
+    best = 1000000
+    for i in range(0,num_iterations):
+        first_city = random.randint(0, n - 1)
+        solution = nearest_neighbor_random(first_city, alpha)
+        solution_improved, solution_value_improved = two_opt(solution)
+        if(solution_value_improved < best):
+            best_solution = solution_improved
+            best = solution_value_improved
+    return best, best_solution
 
 random.seed(time.clock())
 file = pd.read_csv("tsp-instance.csv")
@@ -103,6 +147,7 @@ coord = []
 for i in range(0, n):
     coord.append((file['x'][i], file['y'][i]))
 D = mk_matrix(coord)
-#print(np.matrix(D));
 
-print(nearest_neighbor(0))
+alpha = 0.5
+best, best_solution = GRASP(1000, alpha)
+print(best)
