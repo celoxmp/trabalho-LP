@@ -1,4 +1,5 @@
 import random
+from Heuristic import Heuristic
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jun 24 20:37:50 2019
@@ -6,12 +7,13 @@ Created on Mon Jun 24 20:37:50 2019
 @author: Marcelo
 """
 
-class Greedy_random:
+class Greedy_random(Heuristic):
     def __init__(self, EntryData):
         self.data = EntryData().data
         self.n = EntryData().n
         
     def calculate(self):
+        print("Começando o cálculo com algoritmo Guloso Randômico: ")
         return self.length(self.nearest_neighbor_random(0, 0.5))
         
     def nearest_neighbor_random(self, i, alpha):

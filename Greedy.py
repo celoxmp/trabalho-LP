@@ -8,4 +8,5 @@ Created on Mon Jun 24 20:37:50 2019
 
 class Greedy(Greedy_random):
     def calculate(self):
+        print("Começando o cálculo com algoritmo Guloso: ")
         return self.length(self.nearest_neighbor_random(0, 0))

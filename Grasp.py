@@ -1,6 +1,7 @@
 import random
 import matplotlib.pyplot as plt
 from Two_opt import Two_opt
+from Heuristic import Heuristic
 
 # -*- coding: utf-8 -*-
 """
@@ -9,13 +10,14 @@ Created on Sat Jun 22 19:16:54 2019
 @author: Marcelo
 """
 
-class Grasp:
+class Grasp(Heuristic):
     def __init__(self, EntryData):
         self.data = EntryData().data
         self.n = EntryData().n
         self.two_opt = Two_opt(EntryData)
         
     def calculate(self):
+        print("Começando o cálculo com algoritmo Grasp: ")
         best, best_solution = self.calculate_GRASP(1000, 0.5)
         return best;
     

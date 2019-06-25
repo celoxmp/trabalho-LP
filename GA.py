@@ -1,5 +1,6 @@
 import numpy as np, random, operator, pandas as pd, matplotlib.pyplot as plt
 from EntryData import EntryData
+from Heuristic import Heuristic
 
 # -*- coding: utf-8 -*-
 """
@@ -8,7 +9,7 @@ Created on Sat Jun 22 19:52:49 2019
 @author: Marcelo
 """
 
-class GA:
+class GA(Heuristic):
     def __init__(self, EntryData):
         entry = EntryData()
         self.data = entry.data
@@ -149,6 +150,7 @@ class GA:
         plt.show()
         
     def calculate(self):
+        print("Começando o cálculo com algoritmo genético: ")
         return self.geneticAlgorithm(popSize=100, eliteSize=20, mutationRate=0.01, generations=100)
         
 class Fitness:

@@ -1,4 +1,5 @@
 from Greedy_random import Greedy_random
+from Heuristic import Heuristic
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jun 24 20:29:28 2019
@@ -6,13 +7,14 @@ Created on Mon Jun 24 20:29:28 2019
 @author: Marcelo
 """
 
-class Two_opt: # Busca Local de k=2 (muda entre 2 posições)
+class Two_opt(Heuristic): # Busca Local de k=2 (muda entre 2 posições)
     def __init__(self, EntryData):
         self.data = EntryData().data
         self.n = EntryData().n
         self.greedy_random = Greedy_random(EntryData)
         
     def calculate(self):
+        print("Começando o cálculo com algoritmo Busca Local de k = 2: ")
         parcial_solution = self.greedy_random.nearest_neighbor_random(0, 0.5)
         best, best_solution = self.two_opt(parcial_solution)
         return best_solution;
