@@ -123,15 +123,15 @@ class GA:
     
     def geneticAlgorithm(self, popSize, eliteSize, mutationRate, generations):
         pop = self.initialPopulation(popSize, self.list)
-        print("Initial distance: " + str(1 / self.rankRoutes(pop)[0][1]))
+        #print("Initial distance: " + str(1 / self.rankRoutes(pop)[0][1]))
     
         for i in range(0, generations):
             pop = self.nextGeneration(pop, eliteSize, mutationRate)
     
-        print("Final distance: " + str(1 / self.rankRoutes(pop)[0][1]))
+        #print("Final distance: " + str(1 / self.rankRoutes(pop)[0][1]))
         bestRouteIndex = self.rankRoutes(pop)[0][0]
         bestRoute = pop[bestRouteIndex]
-        return bestRoute
+        return str(1 / self.rankRoutes(pop)[0][1])
     
     
     def geneticAlgorithmPlot(self, popSize, eliteSize, mutationRate, generations):
@@ -147,6 +147,9 @@ class GA:
         plt.ylabel('Distance')
         plt.xlabel('Generation')
         plt.show()
+        
+    def calculate(self):
+        return self.geneticAlgorithm(popSize=100, eliteSize=20, mutationRate=0.01, generations=100)
         
 class Fitness:
     def __init__(self, route, data):
