@@ -9,14 +9,22 @@ Created on Sat Jun 22 18:54:30 2019
 @author: Marcelo
 """
 
-class EntryData:  #Singleton
-    """def __new__(cls, *args, **kwargs):
-         if not hasattr(cls, '_instance'):
-             cls._instance = super(EntryData, cls).__new__(cls, *args, **kwargs)
-         return cls._instance"""
-    
-    def __init__(self):
+class EntryData(object):  #Singleton
+    id = 0;
+    __instance = None
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super(EntryData,cls).__new__(cls)
+            cls.__instance.__initialized = False
+        return cls.__instance
+
+    def __init__(self):      
+        if(self.__initialized): 
+            return
+        self.__initialized = True
         self.data = self.readFile()
+        EntryData.id+=1;
+        print(EntryData.id)
      
     def readFile(self):
         file = pd.read_csv("tsp-instance.csv")

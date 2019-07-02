@@ -19,8 +19,8 @@ class Two_opt(Heuristic): # Busca Local de k=2 (muda entre 2 posições)
         best, best_solution = self.two_opt(parcial_solution)
         return best_solution;
         
-    def two_opt(self, route):
-        best = route
+    def two_opt(self, route): #troca 2 arestas entre dois pares
+        best = route #Ex: se A -> B e C -> D, vira A->D e C->B, se diminuir distancia
         improved = True
         counter = 0
         while improved:
